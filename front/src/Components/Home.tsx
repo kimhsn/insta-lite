@@ -1,7 +1,8 @@
 import React from 'react'
 import CardInsta from './CardInsta';
 import '../Styles/Card.css'
-
+import { GlobalStyle } from "../Styles/global";
+import { SideBar } from "../Components/Sidebar/Index";
 const Home = () => {
 
     const admin = 'admin';
@@ -23,6 +24,10 @@ const Home = () => {
     return (
 
         <React.Fragment>
+
+            <SideBar />
+            <GlobalStyle />
+
             <div className='cards-container'> 
             {
                 cardsData.map((card) => (
@@ -42,4 +47,5 @@ const Home = () => {
     )
 }
 
-export default Home
+
+export default Home;
