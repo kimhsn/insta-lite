@@ -1,10 +1,14 @@
-import React from 'react'
+import React from "react";
+import { GlobalStyle } from "../styles/global";
 
-
+import { SideBar } from "../Components/Sidebar/Index";
 const Home = () => {
-    return (
-        <div>Home </div>
-    )
-}
+  return (
+    <>
+      <SideBar />
+      <GlobalStyle />
+    </>
+  );
+};
 
-export default Home
+export default Home;
