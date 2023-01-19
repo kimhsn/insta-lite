@@ -1,0 +1,62 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    width: 90%;
+    margin: auto;
+  }
+  
+  .cards-container {
+    display: flex;
+    border-radius: 6px;
+    color: #333;
+    background: #eee;
+    padding: 1rem;
+    overflow-x: auto;
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+  }
+  .cards-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .cardInsta {
+    width: 40%;
+    box-shadow: 0 1px 1rem -4px #000;
+    background: #fff;
+    margin: 1rem;
+    overflow: hidden;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;  
+    position: relative;
+    
+  }
+  
+
+  .cardInsta:hover {
+    box-shadow: 0 4px 1rem -4px #000;
+    transform: translateY(-3px);
+    cursor: pointer;
+  }
+
+  
+  @media screen and (max-width: 625px) {
+    .container {
+      width: 100%
+    }
+    
+    .cards-container {
+      padding: .5rem;
+    }
+    
+    .card {
+      margin: .5rem;
+      position: relative;
+    }
+  }
