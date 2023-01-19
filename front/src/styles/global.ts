@@ -10,7 +10,6 @@ export const GlobalStyle = createGlobalStyle`
     
     font-family: 'Roboto', sans-serif;
 
-    color: var(--primary-font-color);
   }
 
   button {
