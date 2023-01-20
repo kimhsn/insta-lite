@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BiChevronDown } from "react-icons/bi";
-import { FiPlusSquare } from "react-icons/fi";
-import { AiOutlineMenu } from "react-icons/ai";
+import { FcManager } from "react-icons/fc";
 
 const TopNavWrapper = styled.div`
   color: white;
@@ -61,7 +59,7 @@ function TopNav() {
         <ProfileName>Hakim HASSAINE</ProfileName>
       </AccountNav>
       <PostMenu>
-        <FiPlusSquare />
+        <FcManager />
       </PostMenu>
     </TopNavWrapper>
   );

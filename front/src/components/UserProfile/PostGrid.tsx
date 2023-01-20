@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import post1 from "../assets/post1.png";
-import post2 from "../assets/post2.png";
-import post3 from "../assets/post3.png";
-import post4 from "../assets/post4.png";
-import post5 from "../assets/post5.png";
-import post6 from "../assets/post6.png";
-import post7 from "../assets/post7.png";
-import post8 from "../assets/post8.png";
-import post9 from "../assets/post9.png";
+import post1 from "../../assets/post1.png";
+import post2 from "../../assets/post2.png";
+import post3 from "../../assets/post3.png";
+import post4 from "../../assets/post4.png";
+import post5 from "../../assets/post5.png";
+import post6 from "../../assets/post6.png";
+import post7 from "../../assets/post7.png";
+import post8 from "../../assets/post8.png";
+import post9 from "../../assets/post9.png";
 
 const postImages = [
   post1,
@@ -23,7 +23,7 @@ const postImages = [
 ];
 
 const GridWrapper = styled.div`
-  margin-top: 3px;
+  margin-top: 40px;
   display: grid;
   grid-gap: 3px;
   grid-template-columns: repeat(3, 1fr);

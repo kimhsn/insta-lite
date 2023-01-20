@@ -4,7 +4,7 @@ function Tags() {
   return (
     <svg
       aria-label="Tagged"
-      class="_8-yf5 "
+      className="_8-yf5 "
       fill="#8e8e8e"
       height="12"
       viewBox="0 0 48 48"

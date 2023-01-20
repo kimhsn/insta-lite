@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import highlight1 from "../assets/highlight1.png";
-import highlight2 from "../assets/highlight2.png";
-import highlight3 from "../assets/highlight3.png";
-import highlight4 from "../assets/highlight4.png";
-import highlight5 from "../assets/highlight5.png";
+import highlight1 from "../../assets/highlight1.png";
+import highlight2 from "../../assets/highlight2.png";
+import highlight3 from "../../assets/highlight3.png";
+import highlight4 from "../../assets/highlight4.png";
+import highlight5 from "../../assets/highlight5.png";
 
 let highlightsArray = [
   { src: highlight1, label: "WEB-DEV" },

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import scLogo from "../assets/scLogo.jpg";
+import scLogo from "../../assets/scLogo.jpg";
 
 const ProfileDetailsWrapper = styled.div`
   display: flex;
