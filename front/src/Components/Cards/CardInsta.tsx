@@ -32,8 +32,8 @@ import { saveAs } from "file-saver";
 const CardInsta = (props : any) => {
     
     const [nom,setNom] = useState(props.nom);
-    const [description,setDescription] = useState(props.nom);
-    const [imaageUrl,setImageUrl] = useState(props.nom);
+    const [description,setDescription] = useState(props.description);
+    const [imaageUrl,setImageUrl] = useState(props.imgUrl);
     const [open, setOpen] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
     
@@ -66,7 +66,7 @@ const CardInsta = (props : any) => {
     } 
 
     useEffect( () => {
-       
+       console.log(props);
     },[]);
 
     return (
@@ -82,8 +82,8 @@ const CardInsta = (props : any) => {
                 <MoreVertIcon />
             </IconButton>
             }
-            title={props.title}
-            subheader={props.title}
+            title={props.nom}
+            subheader={props.nom}
         />
         <CardMedia
             component="img"
@@ -93,7 +93,7 @@ const CardInsta = (props : any) => {
         />
         <CardContent>
             <Typography variant="body2" color="text.secondary">
-                {props.content}
+                {props.description}
             </Typography>
         </CardContent>
         <CardActions disableSpacing>

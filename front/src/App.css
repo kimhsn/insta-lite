@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
   text-align: center;
 }
@@ -39,4 +43,8 @@
 
 body {
   background: #eee;
+}
+
+td {
+  text-align: left !important;
 }

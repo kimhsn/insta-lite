@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useContext } from 'react';
 import { Container, Content, ClosedSideBar, OpenSideBar } from "./styles";
 import {
   MdSettings,
@@ -10,13 +11,19 @@ import {
   FaUserAlt,
   BsImages,
   RiLogoutCircleRLine,
+  BiLogOutCircle,
+  RiUserSettingsFill
 } from "react-icons/all";
+
+import  {LoginContext}  from "../../context/AuthContext";
 
 import logoImg from "../../assets/images/logo.png";
 import userImg from "../../assets/images/eu.jpg";
 
 export function SideBar() {
   const [sideBar, setSideBar] = useState(false);
+
+  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
 
   function handleChangeSideBar() {
     setSideBar((prevState) => !prevState);
@@ -52,15 +59,22 @@ export function SideBar() {
             <div>
               {/* Icones que pode não ser tão principais no app */}
               <ul>
-                <a href="/" title="Notificações">
-                  <MdSettings />
+                <a href="/users" title="Users">
+                  <RiUserSettingsFill />
                 </a>
                 <a href="/" title="Configurações">
                   <MdSettings />
                 </a>
-                <a href="/" title="Sair da conta">
-                  <RiLogoutCircleRLine />
-                </a>
+                {
+                    (isLoggedIn)  ? (<a href="/logout" title="Deconnexion">
+                        <BiLogOutCircle />
+                      </a>)
+
+                    : (<a href="/login" title="Connexion">
+                          <RiLogoutCircleRLine />
+                      </a>)
+                }
+                
               </ul>
 
               <span>
