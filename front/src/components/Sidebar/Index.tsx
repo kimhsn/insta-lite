@@ -1,7 +1,5 @@
 import { useState } from "react";
-
 import { Container, Content, ClosedSideBar, OpenSideBar } from "./styles";
-
 import {
   MdSettings,
   BsArrowRight,
@@ -37,16 +35,16 @@ export function SideBar() {
 
               {/* Links principais do app */}
               <ul>
-                <a href="/" title="Alguma coisa">
+                <a href="/" title="Accueil">
                   <AiFillHome />
                 </a>
-                <a href="/" title="Alguma coisa">
+                <a href="/" title="Images">
                   <BsImages />
                 </a>
-                <a href="/" title="Alguma coisa">
+                <a href="/" title="Vidéos">
                   <AiFillVideoCamera />
                 </a>
-                <a href="/" title="Alguma coisa">
+                <a href="/profile" title="profile">
                   <FaUserAlt />
                 </a>
               </ul>
@@ -98,7 +96,7 @@ export function SideBar() {
                     <AiFillVideoCamera />
                     <p>Vidéos</p>
                   </a>
-                  <a href="/" title="Alguma coisa">
+                  <a href="/profile" title="Alguma coisa">
                     <FaUserAlt />
                     <p>Profile</p>
                   </a>
