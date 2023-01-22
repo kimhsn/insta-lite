@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Footer from "../components/Auth/Footer";
-
+import axios from "axios";
 // icons
 import { ImFacebook2 as FacebookIcon } from "react-icons/im";
 import { AiFillEye as EyeIcon } from "react-icons/ai";
@@ -8,15 +8,18 @@ import { AiFillEyeInvisible as EyeInvisibleIcon } from "react-icons/ai";
 import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 
 //images
-import loginSide from '../assets/login-side-img.png';
-import githubImg from '../assets/get-it-on-github.png';
-import logo  from '../assets/logo.png';
-import logoFull from '../assets/logo-full.png';
+import loginSide from "../assets/login-side-img.png";
+import githubImg from "../assets/get-it-on-github.png";
+import logo from "../assets/logo.png";
+import logoFull from "../assets/logo-full.png";
 
 // utilities
 import { isValidEmail } from "../utility";
 import { LoginContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import {User} from '../pages/utils';
+
+const LOGIN_URL = "http://localhost:8080/insta/auth/authenticate";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,37 +28,78 @@ const Login = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(true);
+  const [api,setApi] = useState("http://localhost:8080");
 
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(LoginContext);
 
-  if (user) navigate("/");
+  useEffect(() => {
+   
+  }, []);
 
-  const showError = (error : any) => {
+  //Call api login
+
+  const handleSubmit = async (email : string,password: string) => {
+    const response = await axios.post(
+      LOGIN_URL,
+      JSON.stringify({
+        login: email,
+        password: password
+      }),
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(
+      response => {
+           console.log(response);
+           
+           if( response.status === 200) {
+            //changeToken(response.data.token);
+            let token = response.data.accesToken;
+            let refrechToken = response.data.refreshToken;
+            //get user informations
+            axios.get(`${api}/insta/users/findByMail/${email}`,{headers: {"Authorization" : `Bearer ${token}`} }).then(
+              responseF => {
+                  if( responseF.status === 200) {
+                    let user : User = {
+                      id: responseF.data.id,
+                      email: responseF.data.email,
+                      nom: responseF.data.nom,
+                      prenom: responseF.data.prenom,
+                      role: responseF.data.appRoles.roleName,
+                      jwt: token,
+                      refrechJwt : refrechToken,
+                    }
+                    setUser(user);
+                    setFormLoading(false);     
+                    navigate("/"); 
+                  }
+              }
+            )
+           
+
+          }
+      }
+  )
+  };
+
+  const showError = (error: any) => {
     setErrorMsg(error);
     setTimeout(() => {
       setErrorMsg("");
     }, 3000);
   };
 
-  const submitForm = async (e : any) => {
+  const submitForm = async (e: any) => {
     e.preventDefault();
     if (!isValidEmail(email)) showError("Invalid email address");
-    else if (password.length < 6)
+    else if (password.length < 4)
       showError("Password must be at least 6 characters");
-    if (isValidEmail(email) && password.length > 6) {
+    if (isValidEmail(email) && password.length >= 4) {
       setFormLoading(true);
       //const user = await Login(email, password);
-      if (user) {
-        setEmail("");
-        setPassword("");
-        setFormLoading(false);
-      }
-      if (!user)
-        showError(
-          "Sorry, your password was incorrect. Please double-check your password."
-        );
+      handleSubmit(email,password);
     }
   };
 
@@ -68,11 +112,7 @@ const Login = () => {
       <div className="h-screen w-screen flex flex-wrap items-center justify-center p-3">
         <div className="flex items-center">
           <div className="hidden md:block">
-            <img
-              src={loginSide}
-              className="max-h-[500px]"
-              alt="login"
-            />
+            <img src={loginSide} className="max-h-[500px]" alt="login" />
           </div>
           <div className="flex flex-col flex-shrink-0 w-[350px]">
             <div className="flex flex-col items-center justify-center rounded w-full border-[1px] border-gray-300 bg-white p-6">
@@ -141,10 +181,8 @@ const Login = () => {
                         )}
                       </button>
                     </div>
-                   
-                    <div className="my-4 ">
-                      
-                    </div>
+
+                    <div className="my-4 "></div>
                   </div>
                   {errorMsg?.length > 0 && (
                     <div className="text-center text-xs my-4 text-red-600">

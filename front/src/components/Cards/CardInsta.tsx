@@ -26,16 +26,21 @@ import TextField from '@mui/material/TextField';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Box, { BoxProps } from '@mui/material/Box';
 import DownloadIcon from '@mui/icons-material/Download';
+import axios from 'axios';
 import { saveAs } from "file-saver";
-
+import {
+  MdPublic,
+  RiGitRepositoryPrivateFill
+} from "react-icons/all";
 
 const CardInsta = (props : any) => {
     
     const [nom,setNom] = useState(props.nom);
     const [description,setDescription] = useState(props.description);
     const [imaageUrl,setImageUrl] = useState(props.imgUrl);
-    const [open, setOpen] = React.useState(false);
-    const [openEdit, setOpenEdit] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [priver, setPriver] = useState(props.priver);
+    const [openEdit, setOpenEdit] = useState(false);
     
     const handleClickOpen = (id : Number) => {
       setOpen(true);
@@ -54,11 +59,31 @@ const CardInsta = (props : any) => {
       };
 
     const deleteImage = (id : Number)=> {
-        //axios
+        axios.delete(`${props.api}/insta/photos/${id}`,{ headers: {"Authorization" : `Bearer ${props.currentUser.jwt}`} }).then(
+          response => {
+                if( response.status === 200) {
+                  props.getImages();
+                }
+          }
+        )
     }
 
     const updateImage = (id : Number)=> {
-        //axios
+
+        let datas = {
+          nom: nom,
+          priver: priver,
+          description: description,
+          urlPhoto: imaageUrl
+        };
+
+        axios.put(`${props.api}/insta/photos/${id}`,datas,{ headers: {"Authorization" : `Bearer ${props.currentUser.jwt}`} }).then(
+          response => {
+                if( response.status === 200) {
+                  props.getImages();
+                }
+          }
+        )
     }
 
     const downloadImage =  ()=> {
@@ -77,18 +102,14 @@ const CardInsta = (props : any) => {
                 R
             </Avatar>
             }
-            action={
-            <IconButton aria-label="settings">
-                <MoreVertIcon />
-            </IconButton>
-            }
+           
             title={props.nom}
-            subheader={props.nom}
+            subheader={props.user}
         />
         <CardMedia
             component="img"
             height="194"
-            image="https://unsplash.it/350/200"
+            image={`${props.imgUrl}/350/200`}
             alt="Paella dish"
         />
         <CardContent>
@@ -105,8 +126,21 @@ const CardInsta = (props : any) => {
             </IconButton>
             <IconButton aria-label="share">
                 <DownloadIcon onClick = {downloadImage} />
-          
-            </IconButton>
+            </IconButton> 
+
+            {(priver) 
+            ? (
+              <IconButton aria-label="share right-priver-public">
+                <RiGitRepositoryPrivateFill />
+              </IconButton>
+            )
+            
+            : (
+              <IconButton aria-label="share right-priver-public">
+                <MdPublic />
+              </IconButton>
+            )
+            }
             
         </CardActions>
         <Dialog

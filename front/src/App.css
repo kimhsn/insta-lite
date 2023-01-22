@@ -48,3 +48,8 @@ body {
 td {
   text-align: left !important;
 }
+
+.right-priver-public {
+  margin-left: auto;
+  cursor: none;
+}
