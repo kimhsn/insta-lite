@@ -31,8 +31,7 @@ const Footer = () => {
                 target="_blank"
                 href="https://about.instagram.com/blog/"
               />
-                <div className="">Blog</div>
-            
+              <div className="">Blog</div>
             </div>
             <div className="">
               <a
@@ -49,8 +48,7 @@ const Footer = () => {
                 target="_blank"
                 href="https://help.instagram.com/"
               />
-                <div className="">Help</div>
-             
+              <div className="">Help</div>
             </div>
             <div className="">
               <a
