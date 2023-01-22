@@ -22,6 +22,7 @@ export const LoginContext = createContext<LoginContextType>({
   setUser: () => {},
   setIsLoggedIn: () => {},
   setDarkMode: () => {},
+
 });
 
 function LoginCtxProvider(props: Props) {

@@ -11,5 +11,5 @@ import java.io.InputStream;
 @AllArgsConstructor
 public class CreatePhoto {
     private Photo photo;
-    private File file;
+    private MultipartFile file;
 }

@@ -18,10 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -102,10 +99,10 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public String savePhoto(File file, String titre) throws FlickrException, FileNotFoundException {
+    public String savePhoto(MultipartFile file, String titre) throws FlickrException, IOException {
         final FlickrConfigurationConnect flickrConf = new FlickrConfigurationConnect();
         final Flickr flickr = flickrConf.getCnxFlickr();
-        InputStream stream = new FileInputStream(file);
+        InputStream stream = file.getInputStream();
         UploadMetaData uploadMetaData = new UploadMetaData();
         uploadMetaData.setTitle(titre);
         String vPhotoId = flickr.getUploader().upload(stream, uploadMetaData);
