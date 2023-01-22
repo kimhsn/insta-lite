@@ -20,5 +20,5 @@ public interface PhotoService {
     PhotoDto update(Integer id, PhotoDto photo);
     String delete(Integer id);
     String addUserToPhoto(String emailUser, Integer idPhoto);
-    String savePhoto(File file, String titre) throws FlickrException, IOException, ExecutionException, InterruptedException;
+    String savePhoto(MultipartFile file, String titre) throws FlickrException, IOException, ExecutionException, InterruptedException;
 }
