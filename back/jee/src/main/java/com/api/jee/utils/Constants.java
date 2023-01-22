@@ -2,7 +2,7 @@ package com.api.jee.utils;
 
 public interface Constants {
       //ROOT -----------------------------------------------------------------
-      public final String APP_ROOT = "/shops";
+      public final String APP_ROOT = "/insta";
 
       public final String ENDPOINT_USERS = APP_ROOT+"/users";
       public final String ENDPOINT_PHOTOS = APP_ROOT+"/photos";
