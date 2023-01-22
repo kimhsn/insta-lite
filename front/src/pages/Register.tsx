@@ -1,18 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import Footer from "../components/Auth/Footer";
-
 // icons
 import { ImFacebook2 as FacebookIcon } from "react-icons/im";
 import { AiFillEye as EyeIcon } from "react-icons/ai";
 import { AiFillEyeInvisible as EyeInvisibleIcon } from "react-icons/ai";
 import { ImSpinner3 as SpinnerIcon } from "react-icons/im";
 
-
 //images
-import loginSide from '../assets/login-side-img.png';
-import githubImg from '../assets/get-it-on-github.png';
-import logo  from '../assets/logo.png';
-import logoFull from '../assets/logo-full.png';
+import loginSide from "../assets/login-side-img.png";
+import githubImg from "../assets/get-it-on-github.png";
+import logo from "../assets/logo.png";
+import logoFull from "../assets/logo-full.png";
 
 // utilities
 import { isValidEmail } from "../utility";
@@ -35,21 +33,20 @@ const Register = () => {
 
   if (user) navigate("/");
 
-  const showError = (error : any) => {
+  const showError = (error: any) => {
     setErrorMsg(error);
     setTimeout(() => {
       setErrorMsg("");
     }, 3000);
   };
 
-  const submitForm = async (e : any) => {
+  const submitForm = async (e: any) => {
     e.preventDefault();
     if (!isValidEmail(email)) showError("Invalid email address");
     else if (password.length < 6)
       showError("Password must be at least 6 characters");
     if (isValidEmail(email) && password.length > 6) {
       setFormLoading(true);
-
     }
   };
 
@@ -72,13 +69,9 @@ const Register = () => {
               </div>
               <p className="text-center font-bold  text-lg text-slate-800">
                 Inscrivez-vous pour voir les photos et vidéos de vos amis.
-
               </p>
-            
-              <div className="flex gap-2 items-center my-3 w-full">
-              
-                
-              </div>
+
+              <div className="flex gap-2 items-center my-3 w-full"></div>
               <div className="w-full px-5">
                 <form
                   className=""
@@ -167,7 +160,9 @@ const Register = () => {
                     </div>
                   )}
                   <div className="text-center w-full text-xs font-thin my-4">
-                    <a href="/accounts/password/reset/">Mot de Passe oublié ?</a>
+                    <a href="/accounts/password/reset/">
+                      Mot de Passe oublié ?
+                    </a>
                   </div>
                 </form>
               </div>
