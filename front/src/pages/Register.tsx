@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Footer from "../components/Auth/Footer";
+import axios from "axios";
 // icons
 import { ImFacebook2 as FacebookIcon } from "react-icons/im";
 import { AiFillEye as EyeIcon } from "react-icons/ai";
@@ -19,19 +20,22 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [formLoading, setFormLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [api,setApi] = useState("http://localhost:8080");
+  const [role,setRole] = useState("");
 
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(LoginContext);
 
-  if (user) navigate("/");
+  if(user) navigate('/');
+  
 
   const showError = (error: any) => {
     setErrorMsg(error);
@@ -42,11 +46,32 @@ const Register = () => {
 
   const submitForm = async (e: any) => {
     e.preventDefault();
-    if (!isValidEmail(email)) showError("Invalid email address");
+    if (!isValidEmail(email)) showError("l'adress email est non valide");
     else if (password.length < 6)
-      showError("Password must be at least 6 characters");
-    if (isValidEmail(email) && password.length > 6) {
+      showError("le mot de passe doit contenir au moins 4 caractères");
+    if (isValidEmail(email) && password.length >= 4) {
       setFormLoading(true);
+
+      const response = await axios.post(
+        `${api}/insta/users/${role}`,
+        JSON.stringify({
+          email: email,
+          mdp: password,
+          nom: nom,
+          prenom: prenom
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      ).then(
+        response => {
+            if( response.status === 200) {
+              setFormLoading(false);
+              navigate("/login");
+            }
+        }
+      )
+
     }
   };
 
@@ -94,25 +119,26 @@ const Register = () => {
                     <div className="w-full">
                       <div className="w-full mb-3">
                         <input
-                          placeholder="Entrez votre nom"
+                          placeholder="Nom"
                           type="text"
                           className="text-xs p-2 border-[1px] rounded bg-gray-200/10 w-full border-gray-300"
-                          onChange={(e) => setFullname(e.target.value)}
-                          value={fullname}
+                          onChange={(e) => setNom(e.target.value)}
+                          value={nom}
                         />
                       </div>
                     </div>
                     <div className="w-full">
                       <div className="w-full mb-3">
                         <input
-                          placeholder="Nom d'utilisateur"
+                          placeholder="Prenom"
                           type="text"
                           className="text-xs p-2 border-[1px] rounded bg-gray-200/10 w-full border-gray-300"
-                          onChange={(e) => setUsername(e.target.value)}
-                          value={username}
+                          onChange={(e) => setPrenom(e.target.value)}
+                          value={prenom}
                         />
                       </div>
                     </div>
+                    
 
                     <div className="">
                       <div className="relative">
@@ -138,6 +164,17 @@ const Register = () => {
                             </button>
                           </div>
                         )}
+                      </div>
+                    </div>
+                    <div className="w-full mt-3">
+                      <div className="w-full mb-3">
+                      <select id="countries" className="text-xs p-2 border-[1px] rounded bg-gray-200/10 w-full border-gray-300"
+                        onChange={(e) => setRole(e.target.value)}
+                      >
+                          <option selected>Role</option>
+                          <option value="addNewAdmin">Admin</option>
+                          <option value="addNewUser">Utilisateur</option>
+                      </select>
                       </div>
                     </div>
                     <div className="w-full mt-2">
