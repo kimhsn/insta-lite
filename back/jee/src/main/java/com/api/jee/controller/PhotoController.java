@@ -34,7 +34,7 @@ public class PhotoController {
             @ApiResponse(code = 400, message = "Photo non valide.")
     })
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoDto create(@RequestBody PhotoDto photo)
             throws FlickrException, IOException, ExecutionException, InterruptedException {
         if(photo.getUrlPhoto() != null){
