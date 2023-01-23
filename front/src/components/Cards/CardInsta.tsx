@@ -30,7 +30,8 @@ import axios from 'axios';
 import { saveAs } from "file-saver";
 import {
   MdPublic,
-  RiGitRepositoryPrivateFill
+  RiGitRepositoryPrivateFill,
+  AiOutlineFileAdd
 } from "react-icons/all";
 
 const CardInsta = (props : any) => {
@@ -41,7 +42,8 @@ const CardInsta = (props : any) => {
     const [open, setOpen] = useState(false);
     const [priver, setPriver] = useState(props.priver);
     const [openEdit, setOpenEdit] = useState(false);
-    
+    const [openAdd, setOpenAdd] = useState(false);
+
     const handleClickOpen = (id : Number) => {
       setOpen(true);
     };
@@ -52,17 +54,26 @@ const CardInsta = (props : any) => {
 
     const handleClickUpdate = (id : Number) => {
         setOpenEdit(true);
-      };
+    };
     
-      const handleCloseUpdate = () => {
-        setOpenEdit(false);
-      };
+    const handleCloseUpdate = () => {
+      setOpenEdit(false);
+    };
+
+    const handleClickOpenAdd = () => {
+      setOpenAdd(true);
+    };
+  
+    const handleClickCloseAdd = () => {
+      setOpenAdd(false);
+    };
 
     const deleteImage = (id : Number)=> {
         axios.delete(`${props.api}/insta/photos/${id}`,{ headers: {"Authorization" : `Bearer ${props.currentUser.jwt}`} }).then(
           response => {
                 if( response.status === 200) {
                   props.getImages();
+                  setOpen(false);
                 }
           }
         )
@@ -85,6 +96,30 @@ const CardInsta = (props : any) => {
           }
         )
     }
+
+    const addImage = ()=> {
+      
+      var data = new FormData();
+      var imagedata : any = (document?.querySelector('input[type="file"]') as HTMLInputElement)?.files[0];
+      data.append("photo", imagedata);
+
+      let datas = {
+        nom: nom,
+        priver: priver,
+        description: description,
+        urlPhoto: null,
+        photo: data
+      };
+           
+      axios.post(`${props.api}/insta/photos`,datas,{ headers: {"Authorization" : `Bearer ${props.currentUser.jwt}`} }).then(
+        response => {
+              if( response.status === 200) {
+                props.getImages();
+                setCloseAdd(false);
+              }
+        }
+      )
+  }
 
     const downloadImage =  ()=> {
        saveAs(props.imgUrl,`${props.nom}.png`)
@@ -196,12 +231,9 @@ const CardInsta = (props : any) => {
                 <div>
                     <Button variant="contained" component="label">
                         Upload
-                    <input hidden accept="image/*" multiple type="file" />
+                       <input  accept="image/*" multiple type="file" name="photo" />
                     </Button>
-                    <IconButton color="primary" aria-label="upload picture" component="label" >
-                    <input hidden accept="image/*" type="file"  onChange={(e)=> {setImageUrl(e.target.value)}} />
-                    <PhotoCamera />
-                    </IconButton>
+                   
                 </div>
                
             </Box>
@@ -212,7 +244,49 @@ const CardInsta = (props : any) => {
           <Button onClick={()=> {updateImage(props.id)}}>Modifier</Button>
         </DialogActions>
       </Dialog>
-
+      <IconButton aria-label="share">
+            <AiOutlineFileAdd onClick={()=> {handleClickOpenAdd()}} />
+       </IconButton> 
+       <Dialog open={openAdd} onClose={handleCloseUpdate}>
+          <DialogTitle>Ajouter une image</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Nom d'image"
+              type="text"
+              fullWidth
+              onChange={(e)=> {setNom(e.target.value)}}
+              variant="standard"
+            />
+            <TextField
+              margin="dense"
+              name="description"
+              label="Description du l'image"
+              onChange={(e)=> {setDescription(e.target.value)}}
+              fullWidth
+              variant="standard"
+              rows={6}
+                          
+            />
+              <Box sx={{ display: 'flex',flexDirection: 'column' }}>
+                  <div>
+                      <Button variant="contained" component="label">
+                          Upload
+                        <input  accept="image/*" multiple type="file" name="photo" />
+                      </Button>
+                    
+                  </div>
+                
+              </Box>
+              
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClickCloseAdd}>Annuler</Button>
+            <Button onClick={()=> {addImage()}}>Ajouter</Button>
+          </DialogActions>
+      </Dialog>
     </Card>
     )
 }
