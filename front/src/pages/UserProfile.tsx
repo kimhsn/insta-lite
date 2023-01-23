@@ -28,20 +28,19 @@ const ProfileWrapper = styled.div`
 `;
 
 const UserProfile = () => {
+  const [userInfos, setUserInfos] = useState<any>(null);
   const { user, setUser } = useContext(LoginContext);
   console.log(user);
-  const [userr, setUserr] = useState<any>(null);
-
   useEffect(() => {
-    getOwnUserInfo();
+    getOwnuserInfosInfo();
   }, []);
-  const getOwnUserInfo = async () => {
+  const getOwnuserInfosInfo = async () => {
     const response = await axios.get(`${URL}/findById/3`, {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
       },
     });
-    setUserr(response.data);
+    setUserInfos(response.data);
   };
 
   return (

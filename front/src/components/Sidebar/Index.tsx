@@ -44,42 +44,79 @@ export function SideBar() {
 
               {/* Links principais do app */}
               <ul>
-                <a href="/" title="Accueil">
-                  <AiFillHome />
-                </a>
-                <a href="/" title="Images">
-                  <BsImages />
-                </a>
-                <a href="/" title="Vidéos">
-                  <AiFillVideoCamera />
-                </a>
+                <div
+                  style={{
+                    marginBottom: "38px",
+                    marginTop: "20px",
+                  }}
+                  title="home"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  <AiFillHome size={"20px"} />
+                </div>
+                <div
+                  style={{ marginBottom: "38px" }}
+                  title="images"
+                  onClick={() => {
+                    navigate("/images");
+                  }}
+                >
+                  <BsImages size={"20px"} />
+                </div>
+                <div
+                  style={{ marginBottom: "38px" }}
+                  title="videos"
+                  onClick={() => {
+                    navigate("/videos");
+                  }}
+                >
+                  <AiFillVideoCamera size={"20px"} />
+                </div>
 
                 <div
+                  style={{ marginBottom: "38px" }}
                   title="profile"
                   onClick={() => {
                     navigate("/profile");
                   }}
                 >
-                  <FaUserAlt />
+                  <FaUserAlt size={"20px"} />
                 </div>
               </ul>
             </nav>
             <div>
               {/* Icones que pode não ser tão principais no app */}
               <ul>
-                <a href="/users" title="Users">
-                  <RiUserSettingsFill />
-                </a>
-                <a href="/" title="Configurações">
-                  <MdSettings />
-                </a>
+                <div
+                  style={{ marginBottom: "18px" }}
+                  title="users"
+                  onClick={() => {
+                    navigate("/users");
+                  }}
+                >
+                  {" "}
+                  <RiUserSettingsFill size={"20px"} />
+                </div>
+                <br />
+                <div
+                  style={{ marginBottom: "18px" }}
+                  title="configurations"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  {" "}
+                  <MdSettings size={"20px"} />
+                </div>
                 {isLoggedIn ? (
                   <a href="/logout" title="Deconnexion">
-                    <BiLogOutCircle />
+                    <BiLogOutCircle size={"20px"} />
                   </a>
                 ) : (
                   <a href="/login" title="Connexion">
-                    <RiLogoutCircleRLine />
+                    <RiLogoutCircleRLine size={"20px"} />
                   </a>
                 )}
               </ul>
