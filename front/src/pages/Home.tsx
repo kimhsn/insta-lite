@@ -2,37 +2,36 @@ import React, { useContext, useEffect, useState } from "react";
 import CardInsta from "../components/Cards/CardInsta";
 import { GlobalStyle } from "../Styles/global";
 import { SideBar } from "../components/Sidebar/Index";
-import  {LoginContext}  from "../context/AuthContext";
-import axios from 'axios';
+import { LoginContext } from "../context/AuthContext";
+import axios from "axios";
 import "../Styles/Card.css";
 
 const Home = () => {
-  
   const admin = "admin";
   const date = new Date();
-  const [api,setApi] = useState("http://localhost:8080");
+  const [api, setApi] = useState("http://localhost:8080");
   const { user, setUser } = useContext(LoginContext);
-  const [images,setImages] = useState<any[]>([])
+  const [images, setImages] = useState<any[]>([]);
   const token = user?.jwt;
 
-
+  console.log(user);
 
   const getImages = () => {
-    console.log(user);
+    axios
+      .get(`${api}/insta/photos`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setImages(response.data);
+          console.log(response.data);
+        }
+      });
+  };
 
-    axios.get(`${api}/insta/photos`,{headers: {"Authorization" : `Bearer ${token}`} }).then(
-      response => {
-          if( response.status === 200) {
-             setImages(response.data);
-             console.log(response.data);
-          }
-      }
-    )
-}
-
-  useEffect( () => {
+  useEffect(() => {
     getImages();
- },[]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -48,9 +47,9 @@ const Home = () => {
             imgUrl={card.urlPhoto}
             priver={card.priver}
             user={card.user}
-            currentUser = {user}
-            api = {api}
-            getImages = {getImages}
+            currentUser={user}
+            api={api}
+            getImages={getImages}
           />
         ))}
       </div>
