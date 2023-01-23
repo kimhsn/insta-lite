@@ -37,13 +37,13 @@ public class PhotoController {
     })
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDto create(@RequestBody CreatePhoto createPhoto)
+    public PhotoDto create(@RequestBody PhotoDto photo)
             throws FlickrException, IOException, ExecutionException, InterruptedException {
-        if(createPhoto.getFile() != null){
-            createPhoto.getPhoto().setUrlPhoto(vPhotoService.savePhoto(createPhoto.getFile(),
-                    createPhoto.getPhoto().getNom()));
+        if(photo.getUrlPhoto() != null){
+            photo.setUrlPhoto(vPhotoService.savePhoto(photo.getUrlPhoto(),
+                    photo.getNom()));
         }
-        return vPhotoService.create(PhotoDto.fromEntity(createPhoto.getPhoto()));
+        return vPhotoService.create(photo);
     }
 
 
