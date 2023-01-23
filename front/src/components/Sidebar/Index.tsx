@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useContext } from 'react';
+import { useContext } from "react";
 import { Container, Content, ClosedSideBar, OpenSideBar } from "./styles";
 import {
   MdSettings,
@@ -12,16 +12,18 @@ import {
   BsImages,
   RiLogoutCircleRLine,
   BiLogOutCircle,
-  RiUserSettingsFill
+  RiUserSettingsFill,
 } from "react-icons/all";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 
-import  {LoginContext}  from "../../context/AuthContext";
+import { LoginContext } from "../../context/AuthContext";
 
 import logoImg from "../../assets/images/logo.png";
 import userImg from "../../assets/images/eu.jpg";
 
 export function SideBar() {
   const [sideBar, setSideBar] = useState(false);
+  const navigate = useNavigate();
 
   const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
 
@@ -51,9 +53,15 @@ export function SideBar() {
                 <a href="/" title="Vidéos">
                   <AiFillVideoCamera />
                 </a>
-                <a href="/profile" title="profile">
+
+                <div
+                  title="profile"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
                   <FaUserAlt />
-                </a>
+                </div>
               </ul>
             </nav>
             <div>
@@ -65,16 +73,15 @@ export function SideBar() {
                 <a href="/" title="Configurações">
                   <MdSettings />
                 </a>
-                {
-                    (isLoggedIn)  ? (<a href="/logout" title="Deconnexion">
-                        <BiLogOutCircle />
-                      </a>)
-
-                    : (<a href="/login" title="Connexion">
-                          <RiLogoutCircleRLine />
-                      </a>)
-                }
-                
+                {isLoggedIn ? (
+                  <a href="/logout" title="Deconnexion">
+                    <BiLogOutCircle />
+                  </a>
+                ) : (
+                  <a href="/login" title="Connexion">
+                    <RiLogoutCircleRLine />
+                  </a>
+                )}
               </ul>
 
               <span>

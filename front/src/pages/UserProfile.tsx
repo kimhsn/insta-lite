@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import TopNav from "../components/UserProfile/TopNav";
 import ViewDashboard from "../components/UserProfile/ViewDashboard";
@@ -9,6 +9,11 @@ import Highlights from "../components/UserProfile/Highlights";
 import PostGrid from "../components/UserProfile/PostGrid";
 import { GlobalStyle } from "../Styles/global";
 import { SideBar } from "../components/Sidebar/Index";
+import axios from "axios";
+import { LoginContext } from "../context/AuthContext";
+
+const URL = "http://localhost:8080/insta/users";
+
 const ProfileWrapper = styled.div`
   background-color: #000;
   max-width: 600px;
@@ -23,6 +28,22 @@ const ProfileWrapper = styled.div`
 `;
 
 const UserProfile = () => {
+  const { user, setUser } = useContext(LoginContext);
+  console.log(user);
+  const [userr, setUserr] = useState<any>(null);
+
+  useEffect(() => {
+    getOwnUserInfo();
+  }, []);
+  const getOwnUserInfo = async () => {
+    const response = await axios.get(`${URL}/findById/3`, {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
+      },
+    });
+    setUserr(response.data);
+  };
+
   return (
     <>
       <SideBar />
