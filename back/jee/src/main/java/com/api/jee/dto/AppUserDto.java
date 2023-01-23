@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -27,6 +28,7 @@ public class AppUserDto {
     private AppRole appRoles;
     private List<Photo> photos;
     private List<Video> videos;
+    private Date creationData;
 
     public static AppUserDto fromEntity(AppUser user){
         if(user == null){
@@ -42,6 +44,7 @@ public class AppUserDto {
                 .appRoles(user.getAppRoles())
                 .photos(user.getPhotos())
                 .videos(user.getVideos())
+                .creationData(user.getCreationData())
                 .build();
     }
 
@@ -59,6 +62,7 @@ public class AppUserDto {
         vUser.setAppRoles(userDto.getAppRoles());
         vUser.setPhotos(userDto.getPhotos());
         vUser.setVideos(userDto.getVideos());
+        vUser.setCreationData(userDto.getCreationData());
         return vUser;
     }
 }
