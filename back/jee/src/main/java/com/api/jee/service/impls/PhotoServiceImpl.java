@@ -99,10 +99,10 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public String savePhoto(MultipartFile file, String titre) throws FlickrException, IOException {
+    public String savePhoto(String file, String titre) throws FlickrException, IOException {
         final FlickrConfigurationConnect flickrConf = new FlickrConfigurationConnect();
         final Flickr flickr = flickrConf.getCnxFlickr();
-        InputStream stream = file.getInputStream();
+        InputStream stream = new FileInputStream(new File(file));
         UploadMetaData uploadMetaData = new UploadMetaData();
         uploadMetaData.setTitle(titre);
         String vPhotoId = flickr.getUploader().upload(stream, uploadMetaData);
