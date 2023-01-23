@@ -2,7 +2,6 @@ package com.api.jee.controller;
 
 import com.api.jee.dto.PhotoDto;
 import com.api.jee.dto.VideoDto;
-import com.api.jee.modele.CreatePhoto;
 import com.api.jee.service.PhotoService;
 import com.flickr4java.flickr.FlickrException;
 import io.swagger.annotations.Api;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
