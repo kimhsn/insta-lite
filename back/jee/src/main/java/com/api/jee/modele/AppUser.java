@@ -1,8 +1,10 @@
 package com.api.jee.modele;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -21,6 +23,9 @@ public class AppUser {
     private String mdp;
     @Column(name = "urlPhoto")
     private String urlPhoto;
+    @CreatedDate
+    @Column(name = "creationData", nullable = false, updatable = false)
+    private Date creationData;
     @OneToOne
     @JoinTable( name = "Users_Roles_Associations",
             joinColumns = @JoinColumn( name = "idUser" ),
