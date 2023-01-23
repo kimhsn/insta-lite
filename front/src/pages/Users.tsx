@@ -15,21 +15,22 @@ const Users = () => {
   const [newFirstName, setNewFirstName] = useState<string>("");
   const [newLastName, setNewLastName] = useState<string>("");
   const [newEmail, setNewEmail] = useState<string>("");
-  const { user, setUser } = useContext(LoginContext);
-
+  const { user } = useContext(LoginContext);
+  console.log(user);
   const getUsers = async () => {
     const response = await axios.get(URL, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
+        Authorization: `Bearer ${user?.jwt}`,
       },
     });
+    console.log(response.data);
     setUsers(response.data);
   };
 
   const deleteUser = async (id: number) => {
     await axios.delete(`${URL}/${id}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
+        Authorization: `Bearer ${user?.jwt}`,
       },
     });
     getUsers();
@@ -39,7 +40,7 @@ const Users = () => {
     setIdUserToEdit(id);
     const response = await axios.get(`${URL}/findById/${id}`, {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
+        Authorization: `Bearer ${user?.jwt}`,
       },
     });
     setNewRole(response.data.appRoles.roleName);
@@ -61,7 +62,7 @@ const Users = () => {
       },
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
+          Authorization: `Bearer ${user?.jwt}`,
         },
       }
     );
@@ -73,7 +74,7 @@ const Users = () => {
       },
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAZ21haWwiLCJyb2xlcyI6WyJBRE1JTiJdLCJleHAiOjE2NzQ1MzAyODYsImlhdCI6MTY3NDUwMDI4Nn0.93i766CekqNxJKDiwSSQb5UtwMgOOlZLaNsoGaZ60V4`,
+          Authorization: `Bearer ${user?.jwt}`,
         },
       }
     );
