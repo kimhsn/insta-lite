@@ -2,7 +2,6 @@ package com.api.jee.controller;
 
 import com.api.jee.dto.PhotoDto;
 import com.api.jee.dto.VideoDto;
-import com.api.jee.modele.CreatePhoto;
 import com.api.jee.service.PhotoService;
 import com.flickr4java.flickr.FlickrException;
 import io.swagger.annotations.Api;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -36,14 +34,14 @@ public class PhotoController {
             @ApiResponse(code = 400, message = "Photo non valide.")
     })
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDto create(@RequestBody CreatePhoto createPhoto)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PhotoDto create(@RequestBody PhotoDto photo)
             throws FlickrException, IOException, ExecutionException, InterruptedException {
-        if(createPhoto.getFile() != null){
-            createPhoto.getPhoto().setUrlPhoto(vPhotoService.savePhoto(createPhoto.getFile(),
-                    createPhoto.getPhoto().getNom()));
+        if(photo.getUrlPhoto() != null){
+            photo.setUrlPhoto(vPhotoService.savePhoto(photo.getUrlPhoto(),
+                    photo.getNom()));
         }
-        return vPhotoService.create(PhotoDto.fromEntity(createPhoto.getPhoto()));
+        return vPhotoService.create(photo);
     }
 
 
