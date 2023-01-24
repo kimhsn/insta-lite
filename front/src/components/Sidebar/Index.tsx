@@ -51,7 +51,7 @@ export function SideBar() {
                   }}
                   title="home"
                   onClick={() => {
-                    navigate("/");
+                    navigate("/home");
                   }}
                 >
                   <AiFillHome size={"20px"} />
@@ -111,11 +111,11 @@ export function SideBar() {
                   <MdSettings size={"20px"} />
                 </div>
                 {isLoggedIn ? (
-                  <a href="/logout" title="Deconnexion">
+                  <a href="/" title="Deconnexion">
                     <BiLogOutCircle size={"20px"} />
                   </a>
                 ) : (
-                  <a href="/login" title="Connexion">
+                  <a href="/" title="Connexion">
                     <RiLogoutCircleRLine size={"20px"} />
                   </a>
                 )}

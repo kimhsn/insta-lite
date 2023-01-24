@@ -17,7 +17,7 @@ import logoFull from "../assets/logo-full.png";
 import { isValidEmail } from "../utility";
 import { LoginContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import {User} from '../pages/utils';
+import { User } from "../pages/utils";
 
 const LOGIN_URL = "http://localhost:8080/insta/auth/authenticate";
 
@@ -28,60 +28,58 @@ const Login = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(true);
-  const [api,setApi] = useState("http://localhost:8080");
+  const [api, setApi] = useState("http://localhost:8080");
 
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(LoginContext);
 
-  useEffect(() => {
-   
-  }, []);
+  useEffect(() => {}, []);
 
   //Call api login
 
-  const handleSubmit = async (email : string,password: string) => {
-    const response = await axios.post(
-      LOGIN_URL,
-      JSON.stringify({
-        login: email,
-        password: password
-      }),
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    ).then(
-      response => {
-           console.log(response);
-           
-           if( response.status === 200) {
-            //changeToken(response.data.token);
-            let token = response.data.accesToken;
-            let refrechToken = response.data.refreshToken;
-            //get user informations
-            axios.get(`${api}/insta/users/findByMail/${email}`,{headers: {"Authorization" : `Bearer ${token}`} }).then(
-              responseF => {
-                  if( responseF.status === 200) {
-                    let user : User = {
-                      id: responseF.data.id,
-                      email: responseF.data.email,
-                      nom: responseF.data.nom,
-                      prenom: responseF.data.prenom,
-                      role: responseF.data.appRoles.roleName,
-                      jwt: token,
-                      refrechJwt : refrechToken,
-                    }
-                    setUser(user);
-                    setFormLoading(false);     
-                    navigate("/"); 
-                  }
-              }
-            )
-           
+  const handleSubmit = async (email: string, password: string) => {
+    const response = await axios
+      .post(
+        LOGIN_URL,
+        JSON.stringify({
+          login: email,
+          password: password,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((response) => {
+        console.log(response);
 
-          }
-      }
-  )
+        if (response.status === 200) {
+          //changeToken(response.data.token);
+          let token = response.data.accesToken;
+          let refrechToken = response.data.refreshToken;
+          //get user informations
+          axios
+            .get(`${api}/insta/users/findByMail/${email}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((responseF) => {
+              if (responseF.status === 200) {
+                let user: User = {
+                  id: responseF.data.id,
+                  email: responseF.data.email,
+                  nom: responseF.data.nom,
+                  prenom: responseF.data.prenom,
+                  role: responseF.data.appRoles.roleName,
+                  jwt: token,
+                  refrechJwt: refrechToken,
+                };
+                setUser(user);
+                setFormLoading(false);
+                navigate("/home");
+              }
+            });
+        }
+      });
   };
 
   const showError = (error: any) => {
@@ -99,7 +97,7 @@ const Login = () => {
     if (isValidEmail(email) && password.length >= 4) {
       setFormLoading(true);
       //const user = await Login(email, password);
-      handleSubmit(email,password);
+      handleSubmit(email, password);
     }
   };
 
