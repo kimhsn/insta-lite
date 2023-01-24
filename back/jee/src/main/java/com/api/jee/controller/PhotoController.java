@@ -2,6 +2,7 @@ package com.api.jee.controller;
 
 import com.api.jee.dto.PhotoDto;
 import com.api.jee.dto.VideoDto;
+import com.api.jee.modele.Photo;
 import com.api.jee.service.PhotoService;
 import com.flickr4java.flickr.FlickrException;
 import io.swagger.annotations.Api;
@@ -12,8 +13,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -44,6 +47,25 @@ public class PhotoController {
         return vPhotoService.create(photo);
     }
 
+    @PostMapping(value = "/add")
+    public PhotoDto addPhoto(
+                             @RequestParam("nom") String nom,
+                             @RequestParam("description") String description,
+                             @RequestParam("priver") Boolean priver,
+                             @RequestParam("cacher") Boolean cacher,
+                             @RequestParam("urlPhoto") String urlPhoto,
+                             @RequestParam("path") MultipartFile path
+    ) throws FlickrException, IOException, ExecutionException, InterruptedException {
+        PhotoDto vPhoto = new PhotoDto();
+        vPhoto.setNom(nom);
+        vPhoto.setDescription(description);
+        vPhoto.setPriver(priver);
+        vPhoto.setCacher(cacher);
+        vPhoto.setUrlPhoto(vPhotoService.savePhotos(path,
+                nom));
+        vPhoto.setCreationData(new Date());
+        return vPhotoService.create(vPhoto);
+    }
 
     @ApiOperation(value = "Afficher toutes les Photos de la BDD.", response = VideoDto.class)
     @ApiResponses(value = {
