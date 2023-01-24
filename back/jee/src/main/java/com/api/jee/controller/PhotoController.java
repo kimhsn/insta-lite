@@ -2,6 +2,7 @@ package com.api.jee.controller;
 
 import com.api.jee.dto.PhotoDto;
 import com.api.jee.dto.VideoDto;
+import com.api.jee.modele.PathPhoto;
 import com.api.jee.modele.Photo;
 import com.api.jee.service.PhotoService;
 import com.flickr4java.flickr.FlickrException;
@@ -38,10 +39,15 @@ public class PhotoController {
     })
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public PhotoDto create(@RequestBody PhotoDto photo)
+    public PhotoDto create(@RequestBody PhotoDto photo) {
+        return vPhotoService.create(photo);
+    }
+    @PostMapping("/path")
+    public PhotoDto addPath(@RequestBody PathPhoto path)
             throws FlickrException, IOException, ExecutionException, InterruptedException {
-        if(photo.getUrlPhoto() != null){
-            photo.setUrlPhoto(vPhotoService.savePhoto(photo.getUrlPhoto(),
+        PhotoDto photo = vPhotoService.findByNom(path.getNomPhoto());
+        if(path != null){
+            photo.setUrlPhoto(vPhotoService.savePhotos(path.getPath(),
                     photo.getNom()));
         }
         return vPhotoService.create(photo);
