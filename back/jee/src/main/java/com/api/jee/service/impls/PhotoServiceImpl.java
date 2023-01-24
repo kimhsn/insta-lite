@@ -110,6 +110,17 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
+    public String savePhotos(MultipartFile file, String titre) throws FlickrException, IOException {
+        final FlickrConfigurationConnect flickrConf = new FlickrConfigurationConnect();
+        final Flickr flickr = flickrConf.getCnxFlickr();
+        InputStream stream = file.getInputStream();
+        UploadMetaData uploadMetaData = new UploadMetaData();
+        uploadMetaData.setTitle(titre);
+        String vPhotoId = flickr.getUploader().upload(stream, uploadMetaData);
+        return flickr.getPhotosInterface().getPhoto(vPhotoId).getMedium640Url();
+    }
+
+    @Override
     public String addUserToPhoto(String emailUser, Integer idPhoto){
         Photo vPhoto = PhotoDto.toEntity(findById(idPhoto));
         AppUser vUser = vUserRepository.findByEmail(emailUser).get();
