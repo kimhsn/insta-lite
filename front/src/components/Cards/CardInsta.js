@@ -103,16 +103,22 @@ const CardInsta = (props) => {
     var data = new FormData();
     var imagedata = document?.querySelector('input[type="file"]')?.files[0];
 
-    data.append("photo", imagedata);
-
+    data.append("imagedata", imagedata);
     let datas = {
-      nom: nom,
-      priver: priver,
-      description: description,
-
-      urlPhoto: "/home/hakim/insta/insta-lite/front/src/assets/post6.png",
+      user: "dgg",
+      nom: "mon projet.png",
+      priver: true,
+      cacher: false,
+      creationData: Date.now(),
+      description: "description",
+      urlPhoto: "dsdssl",
     };
-    console.log(datas);
+
+    let datasPath = {
+      path: imagedata,
+    };
+
+    console.log(data.get("imagedata"));
     axios
       .post(`${props.api}/insta/photos`, datas, {
         headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
@@ -120,11 +126,25 @@ const CardInsta = (props) => {
       .then((response) => {
         if (response.status === 200) {
           props.getImages();
-          setCloseAdd(false);
+          setOpenAdd(false);
+        }
+      });
+
+    axios
+      .post(`${props.api}/insta/photos/path`, datasPath, {
+        headers: {
+          Authorization: `Bearer ${props.currentUser.jwt}`,
+          "Content-Type": "multipart/form-data",
+          accept: "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          props.getImages();
+          setOpenAdd(false);
         }
       });
   };
-
   const downloadImage = () => {
     saveAs(props.imgUrl, `${props.nom}.png`);
   };
@@ -148,6 +168,7 @@ const CardInsta = (props) => {
         image={`${props.imgUrl}/350/200`}
         alt="Paella dish"
       />
+      setCloseAdd
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {props.description}
@@ -204,7 +225,6 @@ const CardInsta = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-
       <Dialog open={openEdit} onClose={handleCloseUpdate}>
         <DialogTitle>Modifier l'image {props.nom}</DialogTitle>
         <DialogContent>
