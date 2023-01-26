@@ -1,3 +1,4 @@
+import { type } from "os";
 import React from "react";
 import styled from "styled-components";
 import post1 from "../../assets/post1.png";
@@ -33,11 +34,16 @@ const GridWrapper = styled.div`
   }
 `;
 
-function PostGrid() {
+type Props = {
+  postImages: any[];
+};
+function PostGrid(props: Props) {
+  const { postImages } = props;
+
   return (
     <GridWrapper>
       {postImages.map((postImage) => (
-        <img src={postImage} alt="" />
+        <img src={postImage?.urlPhoto} alt="" />
       ))}
     </GridWrapper>
   );
