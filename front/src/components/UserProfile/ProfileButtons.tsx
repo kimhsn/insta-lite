@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import React from "react";
 import styled from "styled-components";
 
@@ -25,12 +26,15 @@ const Button = styled.button`
     margin-right: 8px;
   }
 `;
-
-function ProfileButtons() {
+type Props = {
+  onClick: any;
+};
+function ProfileButtons(props: Props) {
+  const { onClick } = props;
   return (
     <ButtonWrapper>
       <ButtonRow>
-        <Button>Editer mon profil</Button>
+        <Button onClick={onClick}>Editer mon profil</Button>
         <Button>Ajouter une image/video</Button>
       </ButtonRow>
     </ButtonWrapper>

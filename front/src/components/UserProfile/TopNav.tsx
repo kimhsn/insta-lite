@@ -52,11 +52,18 @@ const MenuNotification = styled.div`
   background-color: #ec4b57;
 `;
 
-function TopNav() {
+interface Props {
+  firstName: string;
+  lastName: string;
+}
+function TopNav(props: Props) {
+  const { firstName, lastName } = props;
   return (
     <TopNavWrapper>
       <AccountNav>
-        <ProfileName>Hakim HASSAINE</ProfileName>
+        <ProfileName>
+          {firstName} {lastName}
+        </ProfileName>
       </AccountNav>
       <PostMenu>
         <FcManager />

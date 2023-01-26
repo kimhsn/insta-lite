@@ -1,3 +1,4 @@
+import { type } from "os";
 import React from "react";
 import styled from "styled-components";
 
@@ -34,18 +35,23 @@ const BioLink = styled.a`
   color: #3d83b6;
   margin-top: 3px;
 `;
-
-function About() {
+type Props = {
+  firstName: string;
+  lastName: string;
+};
+function About(props: Props) {
+  const { firstName, lastName } = props;
   return (
     <AboutWrapper>
-      <ProfileName>Hakim HASSAINE </ProfileName>
-      <ProfileCategory>Education</ProfileCategory>
+      <ProfileName>
+        {firstName} {lastName}
+      </ProfileName>
+      <ProfileCategory> _ </ProfileCategory>
       <BioText>🌐All About FrontEnd Web-Development</BioText>
       <BioText>📒Resources/tips/tricks/tutorials</BioText>
       <BioText>👨‍💻Free source codes</BioText>
       <BioText>💲Dm For Paid Promotions</BioText>
       <BioText>⬇️Join Our Telegram Channel</BioText>
-      <BioLink href="https://t.me/sparshcodes">t.me/sparshcodes</BioLink>
     </AboutWrapper>
   );
 }

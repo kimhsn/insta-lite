@@ -41,23 +41,29 @@ const StatsLabel = styled.span`
   letter-spacing: 1px;
   font-size: 14px;
 `;
+type Props = {
+  totalPhotos: number;
+  totalVideos: number;
+};
 
-function ProfileDetails() {
+function ProfileDetails(props: Props) {
+  const { totalPhotos, totalVideos } = props;
+  let totalPosts = totalPhotos + totalVideos;
   return (
     <ProfileDetailsWrapper>
       <ProfileImage src={scLogo} />
       <ProfileStats>
         <StatsBlock>
-          <StatsNumber>515</StatsNumber>
+          <StatsNumber>{totalPosts}</StatsNumber>
           <StatsLabel>posts</StatsLabel>
         </StatsBlock>
         <StatsBlock>
-          <StatsNumber>55.3K</StatsNumber>
-          <StatsLabel>followers</StatsLabel>
+          <StatsNumber>{totalPhotos}</StatsNumber>
+          <StatsLabel>photos</StatsLabel>
         </StatsBlock>
         <StatsBlock>
-          <StatsNumber>332</StatsNumber>
-          <StatsLabel>following</StatsLabel>
+          <StatsNumber>{totalVideos}</StatsNumber>
+          <StatsLabel>vidéos</StatsLabel>
         </StatsBlock>
       </ProfileStats>
     </ProfileDetailsWrapper>
