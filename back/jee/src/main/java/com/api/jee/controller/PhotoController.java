@@ -42,35 +42,12 @@ public class PhotoController {
     public PhotoDto create(@RequestBody PhotoDto photo) {
         return vPhotoService.create(photo);
     }
-    @PostMapping("/path")
-    public PhotoDto addPath(@RequestBody PathPhoto path)
-            throws FlickrException, IOException, ExecutionException, InterruptedException {
-        PhotoDto photo = vPhotoService.findByNom(path.getNomPhoto());
-        if(path != null){
-            photo.setUrlPhoto(vPhotoService.savePhotos(path.getPath(),
-                    photo.getNom()));
-        }
-        return vPhotoService.create(photo);
-    }
 
-    @PostMapping(value = "/add")
-    public PhotoDto addPhoto(
-                             @RequestParam("nom") String nom,
-                             @RequestParam("description") String description,
-                             @RequestParam("priver") Boolean priver,
-                             @RequestParam("cacher") Boolean cacher,
-                             @RequestParam("urlPhoto") String urlPhoto,
-                             @RequestParam("path") MultipartFile path
-    ) throws FlickrException, IOException, ExecutionException, InterruptedException {
-        PhotoDto vPhoto = new PhotoDto();
-        vPhoto.setNom(nom);
-        vPhoto.setDescription(description);
-        vPhoto.setPriver(priver);
-        vPhoto.setCacher(cacher);
-        vPhoto.setUrlPhoto(vPhotoService.savePhotos(path,
-                nom));
-        vPhoto.setCreationData(new Date());
-        return vPhotoService.create(vPhoto);
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PostMapping("/path")
+    public String addPath(@RequestBody MultipartFile path)
+            throws FlickrException, IOException, ExecutionException, InterruptedException {
+        return vPhotoService.savePhotos(path, "photo");
     }
 
     @ApiOperation(value = "Afficher toutes les Photos de la BDD.", response = VideoDto.class)
