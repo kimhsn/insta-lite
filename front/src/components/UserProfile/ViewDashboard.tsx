@@ -12,11 +12,14 @@ const ViewDashboardText = styled.span`
   color: #3d83b6;
   font-size: 14px;
 `;
-
-function ViewDashboard() {
+type Props = {
+  role: string;
+};
+function ViewDashboard(props: Props) {
+  const { role } = props;
   return (
     <ViewDashboardWrapper>
-      <ViewDashboardText>Role</ViewDashboardText>
+      <ViewDashboardText>Rôle : {role}</ViewDashboardText>
     </ViewDashboardWrapper>
   );
 }
