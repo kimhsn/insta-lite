@@ -23,6 +23,8 @@ public class AppUser {
     private String mdp;
     @Column(name = "urlPhoto")
     private String urlPhoto;
+    @Column(name = "description")
+    private String description;
     @CreatedDate
     @Column(name = "creationData", nullable = false, updatable = false)
     private Date creationData;
