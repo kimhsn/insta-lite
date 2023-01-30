@@ -29,6 +29,7 @@ public class AppUserDto {
     private List<Photo> photos;
     private List<Video> videos;
     private Date creationData;
+    private String description;
 
     public static AppUserDto fromEntity(AppUser user){
         if(user == null){
@@ -45,6 +46,7 @@ public class AppUserDto {
                 .photos(user.getPhotos())
                 .videos(user.getVideos())
                 .creationData(user.getCreationData())
+                .description(user.getDescription())
                 .build();
     }
 
@@ -63,6 +65,7 @@ public class AppUserDto {
         vUser.setPhotos(userDto.getPhotos());
         vUser.setVideos(userDto.getVideos());
         vUser.setCreationData(userDto.getCreationData());
+        vUser.setDescription(userDto.getDescription());
         return vUser;
     }
 }
