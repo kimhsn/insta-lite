@@ -48,6 +48,8 @@ public interface Constants {
               Arrays.asList(
                       ENDPOINT_PHOTOS + ENDPOINT_FIND_BY_NOM,
                       ENDPOINT_VIDEOS + ENDPOINT_FIND_BY_NOM,
+                      "/insta/photos",
+                      "/insta/users/profile",
                       "/insta/users/findByMail/",
                       "/insta/auth/authenticate",
                       "/insta/auth/refreshToken",
