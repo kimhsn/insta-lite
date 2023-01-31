@@ -88,7 +88,6 @@ public class PhotoServiceImpl implements PhotoService {
                     p.setDescription(photo.getDescription());
                     p.setCacher(photo.getCacher());
                     p.setPriver(photo.getPriver());
-                    p.setUrlPhoto(photo.getUrlPhoto());
                     return vPhotoRepository.save(PhotoDto.toEntity(PhotoDto.fromEntity(p)));
                 }).orElseThrow(() -> new RuntimeException("Photo introvable !")));
     }
