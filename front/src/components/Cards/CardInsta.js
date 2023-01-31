@@ -104,46 +104,47 @@ const CardInsta = (props) => {
     var imagedata = document?.querySelector('input[type="file"]')?.files[0];
 
     data.append("imagedata", imagedata);
-    let datas = {
-      user: "dgg",
-      nom: "mon projet.png",
-      priver: true,
-      cacher: false,
-      creationData: Date.now(),
-      description: "description",
-      urlPhoto: "dsdssl",
-    };
 
     let datasPath = {
       path: imagedata,
     };
+    let path = "ok";
+    axios
+        .post(`${props.api}/insta/photos/path`, datasPath, {
+          headers: {
+            Authorization: `Bearer ${props.currentUser.jwt}`,
+            "Content-Type": "multipart/form-data",
+            accept: "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            props.getImages();
+            setOpenAdd(false);
+            let datas = {
+              user: "nom",
+              nom: nom,
+              priver: true,
+              cacher: false,
+              creationData: Date.now(),
+              description: description,
+              urlPhoto: response.data,
+            };
+            axios
+                .post(`${props.api}/insta/photos`, datas, {
+                  headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
+                })
+                .then((response) => {
+                  if (response.status === 200) {
+                    props.getImages();
+                    setOpenAdd(false);
+                  }
+                });
+          }
+        });
 
     console.log(data.get("imagedata"));
-    axios
-      .post(`${props.api}/insta/photos`, datas, {
-        headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          props.getImages();
-          setOpenAdd(false);
-        }
-      });
 
-    axios
-      .post(`${props.api}/insta/photos/path`, datasPath, {
-        headers: {
-          Authorization: `Bearer ${props.currentUser.jwt}`,
-          "Content-Type": "multipart/form-data",
-          accept: "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          props.getImages();
-          setOpenAdd(false);
-        }
-      });
   };
   const downloadImage = () => {
     saveAs(props.imgUrl, `${props.nom}.png`);
