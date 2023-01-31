@@ -29,14 +29,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if(Arrays.asList(ROOT_AUTHORIZED).contains(request.getServletPath())
-        ){
+        if(rootAuthorized(request.getServletPath(), request.getMethod())){
             filterChain.doFilter(request, response);
         } else {
             final String vAuthHeader = request.getHeader(AUTHORIZATION_HEADER);
             if(StringUtils.hasLength(vAuthHeader)){
                 if(vAuthHeader.startsWith(PREFIX_TOKEN)) {
-                    String vJwt = vAuthHeader.substring(7);
+                    String vJwt = vAuthHeader.substring(HEADER_SUBSTRING);
                     vJwtUtil.validateJwtToken(vJwt);
                     String vUserEmail = vJwtUtil.extractUsername(vJwt);
                     if(StringUtils.hasLength(vUserEmail) && SecurityContextHolder.getContext().getAuthentication() == null){
@@ -49,10 +48,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                         );
                         SecurityContextHolder.getContext().setAuthentication(vUsernamePasswordAuthenticationToken);
                     }
+                    filterChain.doFilter(request, response);
                 }
             }
-            filterChain.doFilter(request, response);
+            else {
+                throw new RuntimeException("AUTORISATION MANQUANTE !");
+            }
         }
+    }
+
+    private boolean rootAuthorized(String root, String rootMethod){
+        return ROOT_AUTHORIZED.stream().filter(root::contains).findFirst().orElse(null) != null
+                || (ROOT_AUTHORIZED_GET.stream().filter(root::contains).findFirst().orElse(null) != null
+                    && (rootMethod.equals("GET")));
     }
 }
 

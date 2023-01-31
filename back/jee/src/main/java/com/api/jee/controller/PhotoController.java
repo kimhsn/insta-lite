@@ -44,7 +44,7 @@ public class PhotoController {
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @PostMapping("/path")
+    @PostMapping(ENDPOINT_PATH)
     public String addPath(@RequestBody MultipartFile path)
             throws FlickrException, IOException, ExecutionException, InterruptedException {
         return vPhotoService.savePhotos(path, "photo");
@@ -86,6 +86,7 @@ public class PhotoController {
             @ApiResponse(code = 200, message = "Photo trouvée dans la BDD."),
             @ApiResponse(code = 404, message = "Aucun Photo n'a été trouvée dans la BDD.")
     })
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping(value = ENDPOINT_FIND_BY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     PhotoDto findById(@PathVariable Integer id){
         return vPhotoService.findById(id);
@@ -100,16 +101,4 @@ public class PhotoController {
     PhotoDto findByNom(@PathVariable String nom){
         return vPhotoService.findByNom(nom);
     }
-
-    @ApiOperation(value = "Ajouter un utilisateur a une photo.", response = VideoDto.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Utilisateur ajouté avec succés."),
-            @ApiResponse(code = 404, message = "Aucun utilisateur/photo n'a été trouvé.e dans la BDD.")
-    })
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @PostMapping(ENDPOINT_ADD_USER_TO_PHOTO)
-    public String addVideoToUser(@RequestBody String emailUser, @RequestBody Integer idPhoto){
-        return vPhotoService.addUserToPhoto(emailUser, idPhoto);
-    }
-
 }

@@ -7,6 +7,7 @@ import com.api.jee.modele.RoleUserFrom;
 import com.api.jee.service.AppUserService;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "utilisateur ajouté avec succès."),
             @ApiResponse(code = 400, message = "utilisateur non valide.")
     })
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping(ENDPOINT_ADD_USER)
     public AppUserDto addNewUser(@RequestBody AppUserDto user){
         return vUserService.addNewUser(user);
@@ -41,6 +43,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "utilisateur ajouté avec succès."),
             @ApiResponse(code = 400, message = "utilisateur non valide.")
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(ENDPOINT_ADD_ADMIN)
     public AppUserDto addNewAdmin(@RequestBody AppUserDto user){
         return vUserService.addNewAdmin(user);
@@ -50,7 +53,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des utilisateurs (Peut étre vide)."),
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping()
     public List<AppUserDto> read(){
         return vUserService.read();
@@ -61,7 +64,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "utilisateur mis à ajour avec succès."),
             @ApiResponse(code = 400, message = "utilisateur non valide.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PutMapping("/{id}")
     public AppUserDto update(@PathVariable Integer id, @RequestBody AppUserDto user){
         return vUserService.update(id, user);
@@ -72,7 +75,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "utilisateur supprimé avec succès."),
             @ApiResponse(code = 404, message = "Cette utilisateur ne peut pas étre supprimé.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Integer id){return vUserService.delete(id);}
 
@@ -82,7 +85,7 @@ public class UserController {
             @ApiResponse(code = 403, message = "Autorisations manquantes."),
             @ApiResponse(code = 404, message = "Aucun utilisateur n'a été trouvé dans la BDD.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ENDPOINT_FIND_BY_EMAIL, produces = MediaType.APPLICATION_JSON_VALUE)
     AppUserDto findByEmail(@PathVariable String email){
         return vUserService.findByEmail(email);
@@ -93,7 +96,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "utilisateur trouvé dans la BDD."),
             @ApiResponse(code = 404, message = "Aucun utilisateur n'a été trouvé dans la BDD.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(value = ENDPOINT_FIND_BY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     AppUserDto findById(@PathVariable Integer id){
         return vUserService.findById(id);
@@ -104,7 +107,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Role ajouté avec succés."),
             @ApiResponse(code = 404, message = "Aucun utilisateur/role n'a été trouvé dans la BDD.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(ENDPOINT_ADD_ROLE_TO_USER)
     public String addRoleToUser(@RequestBody RoleUserFrom roleUserFrom){
         return vUserService.addRoleToUser(roleUserFrom.getEmail(), roleUserFrom.getRoleName());
@@ -114,7 +117,7 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La liste des utilisateurs (Peut étre vide)."),
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping(ENDPOINT_PAGE_USER)
     public List<AppUserDto> pageUsers(@RequestParam(name="page", defaultValue = "0") int page,
                                        @RequestParam(name="size", defaultValue = "6") int size){
@@ -126,7 +129,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Profile Utilisateur."),
             @ApiResponse(code = 404, message = "Profile Indisponible.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'MANAGER', 'USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping(ENDPOINT_PROFILE_USER)
     public AppUserDto profileUser(Principal principal){
         return vUserService.findByEmail(principal.getName());
@@ -137,7 +140,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "photo ajoutée avec succés."),
             @ApiResponse(code = 404, message = "Aucun utilisateur/photo n'a été trouvé.e dans la BDD.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(ENDPOINT_ADD_PHOTO_TO_USER)
     public String addPhotoToUser(@RequestBody String emailUser, @RequestBody Integer idPhoto){
         return vUserService.addPhotoToUser(emailUser, idPhoto);
@@ -148,7 +151,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Video ajoutée avec succés."),
             @ApiResponse(code = 404, message = "Aucun utilisateur/video n'a été trouvé.e dans la BDD.")
     })
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(ENDPOINT_ADD_VIDEO_TO_USER)
     public String addVideoToUser(@RequestBody String emailUser, @RequestBody Integer idVideo){
         return vUserService.addVideoToUser(emailUser, idVideo);

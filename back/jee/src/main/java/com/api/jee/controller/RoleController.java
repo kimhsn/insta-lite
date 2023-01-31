@@ -20,19 +20,19 @@ public class RoleController {
     public RoleController(RoleService vRoleService) {
         this.vRoleService = vRoleService;
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(ENDPOINT_ADD_NEW_ROLE)
     public AppRole addNewRole(@RequestBody AppRole appRole){
         return vRoleService.addNewRole(appRole);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(ENDPOINT_FIND_BY_NOM)
     public AppRole findByNom(@RequestBody String roleName){
         return vRoleService.findByNom(roleName);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping()
     public List<AppRole> read(@RequestBody AppRole appRole){
         return vRoleService.listRoles();
