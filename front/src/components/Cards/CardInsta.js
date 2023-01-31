@@ -110,41 +110,40 @@ const CardInsta = (props) => {
     };
     let path = "ok";
     axios
-        .post(`${props.api}/insta/photos/path`, datasPath, {
-          headers: {
-            Authorization: `Bearer ${props.currentUser.jwt}`,
-            "Content-Type": "multipart/form-data",
-            accept: "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            props.getImages();
-            setOpenAdd(false);
-            let datas = {
-              user: "nom",
-              nom: nom,
-              priver: true,
-              cacher: false,
-              creationData: Date.now(),
-              description: description,
-              urlPhoto: response.data,
-            };
-            axios
-                .post(`${props.api}/insta/photos`, datas, {
-                  headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
-                })
-                .then((response) => {
-                  if (response.status === 200) {
-                    props.getImages();
-                    setOpenAdd(false);
-                  }
-                });
-          }
-        });
+      .post(`${props.api}/insta/photos/path`, datasPath, {
+        headers: {
+          Authorization: `Bearer ${props.currentUser.jwt}`,
+          "Content-Type": "multipart/form-data",
+          accept: "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          props.getImages();
+          setOpenAdd(false);
+          let datas = {
+            user: "nom",
+            nom: nom,
+            priver: true,
+            cacher: false,
+            creationData: Date.now(),
+            description: description,
+            urlPhoto: response.data,
+          };
+          axios
+            .post(`${props.api}/insta/photos`, datas, {
+              headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                props.getImages();
+                setOpenAdd(false);
+              }
+            });
+        }
+      });
 
     console.log(data.get("imagedata"));
-
   };
   const downloadImage = () => {
     saveAs(props.imgUrl, `${props.nom}.png`);
