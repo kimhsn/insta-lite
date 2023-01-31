@@ -32,6 +32,14 @@ import static com.api.jee.utils.Constants.*;
 public class PhotoController {
     private final PhotoService vPhotoService;
 
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PostMapping("/path")
+    public String addPath(@RequestBody MultipartFile path)
+            throws FlickrException, IOException, ExecutionException, InterruptedException {
+        return vPhotoService.savePhotos(path, "photo");
+    }
+
     @ApiOperation(value = "Ajouter une Photo.", response = PhotoDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Photo ajoutée avec succès."),
@@ -41,13 +49,6 @@ public class PhotoController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public PhotoDto create(@RequestBody PhotoDto photo) {
         return vPhotoService.create(photo);
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    @PostMapping("/path")
-    public String addPath(@RequestBody MultipartFile path)
-            throws FlickrException, IOException, ExecutionException, InterruptedException {
-        return vPhotoService.savePhotos(path, "photo");
     }
 
     @ApiOperation(value = "Afficher toutes les Photos de la BDD.", response = VideoDto.class)
