@@ -37,12 +37,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        /*http.authorizeRequests()
                 .antMatchers(String.valueOf(HttpMethod.GET), ENDPOINT_PHOTOS).permitAll()
                 .antMatchers(String.valueOf(HttpMethod.GET), ENDPOINT_VIDEOS).permitAll()
                 .antMatchers(ROOT_AUTHORIZED.toArray(new String[ROOT_AUTHORIZED.size()])).permitAll()
                 .antMatchers(ROOT_AUTHORIZED_ADMIN).hasAuthority("ADMIN")
-                .antMatchers(ROOT_AUTHORIZED_USER).hasAuthority("USER");
+                .antMatchers(ROOT_AUTHORIZED_USER).hasAuthority("USER");*/
 
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
