@@ -42,8 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(String.valueOf(HttpMethod.GET), ENDPOINT_VIDEOS).permitAll()
                 .antMatchers(ROOT_AUTHORIZED.toArray(new String[ROOT_AUTHORIZED.size()])).permitAll()
                 .antMatchers(ROOT_AUTHORIZED_ADMIN).hasAuthority("ADMIN")
-                .antMatchers(ROOT_AUTHORIZED_USER).hasAuthority("USER")
-                .anyRequest().authenticated();
+                .antMatchers(ROOT_AUTHORIZED_USER).hasAuthority("USER");
 
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
