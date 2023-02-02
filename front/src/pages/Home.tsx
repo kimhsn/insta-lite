@@ -39,19 +39,21 @@ const Home = () => {
       <GlobalStyle />
 
       <div className="cards-container">
-        {images.map((card) => (
+        {images.map((card) => {
+          return card.cacher && card.user != (user?.nom + " " + user?.prenom) ?'' :
           <CardInsta
-            id={card.id}
-            nom={card.nom}
-            description={card.description}
-            imgUrl={card.urlPhoto}
-            priver={card.priver}
-            user={card.user}
-            currentUser={user}
-            api={api}
-            getImages={getImages}
+              id={card.id}
+              nom={card.nom}
+              description={card.description}
+              imgUrl={card.urlPhoto}
+              priver={card.priver}
+              cacher={card.cacher}
+              user={card.user}
+              currentUser={user}
+              api={api}
+              getImages={getImages}
           />
-        ))}
+        } )}
       </div>
     </React.Fragment>
   );
