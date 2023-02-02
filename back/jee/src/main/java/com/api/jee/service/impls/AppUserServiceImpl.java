@@ -150,6 +150,7 @@ public class AppUserServiceImpl implements AppUserService {
     public String addPhotoToUser(String email, Integer idPhoto){
         AppUser vAppUser = AppUserDto.toEntity(findByEmail(email));
         Photo vPhoto = vPhotoRepository.findById(idPhoto).get();
+        vPhoto.setUser(vAppUser.getPrenom() + " " + vAppUser.getNom());
         vAppUser.getPhotos().add(vPhoto);
         vUserRepository.save(vAppUser);
         return "Photo ajouter avec succés pour l'utilisateur " + vAppUser.getNom() + " !";
