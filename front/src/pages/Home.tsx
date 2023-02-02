@@ -39,7 +39,8 @@ const Home = () => {
       <GlobalStyle />
 
       <div className="cards-container">
-        {images.map((card) => (
+        {images.map((card) => {
+          return card.cacher && card.user != (user?.nom + " " + user?.prenom) ?'' :
           <CardInsta
             id={card.id}
             nom={card.nom}
@@ -51,7 +52,7 @@ const Home = () => {
             api={api}
             getImages={getImages}
           />
-        ))}
+        })}
       </div>
     </React.Fragment>
   );
