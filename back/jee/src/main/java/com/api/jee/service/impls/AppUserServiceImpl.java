@@ -106,6 +106,7 @@ public class AppUserServiceImpl implements AppUserService {
                     u.setNom(user.getNom());
                     u.setPrenom(user.getPrenom());
                     u.setEmail(user.getEmail());
+                    u.setDescription(user.getDescription());
                     return vUserRepository.save(AppUserDto.toEntity(AppUserDto.fromEntity(u)));
                 }).orElseThrow(() -> new RuntimeException("Utilisateur introvable !")));
     }
