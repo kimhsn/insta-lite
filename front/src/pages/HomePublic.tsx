@@ -6,9 +6,7 @@ import { LoginContext } from "../context/AuthContext";
 import axios from "axios";
 import "../Styles/Card.css";
 import CardInstaPublic from "../components/Cards/CardInstaPublic";
-import {
-    BiLogIn
-  } from "react-icons/all";
+import { BiLogIn } from "react-icons/all";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 
 const HomePublic = () => {
@@ -21,16 +19,12 @@ const HomePublic = () => {
   const navigate = useNavigate();
 
   const getImages = () => {
-    axios
-      .get(`${api}/insta/photos`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setImages(response.data);
-          console.log(response.data);
-        }
-      });
+    axios.get(`${api}/insta/photos`).then((response) => {
+      if (response.status === 200) {
+        setImages(response.data);
+        console.log(response.data);
+      }
+    });
   };
 
   useEffect(() => {
@@ -39,25 +33,33 @@ const HomePublic = () => {
 
   return (
     <React.Fragment>
-      <BiLogIn  size={32} id="homePublicLoginIcon" onClick={()=> {navigate('/login')}}/>
+      <BiLogIn
+        size={32}
+        id="homePublicLoginIcon"
+        onClick={() => {
+          navigate("/login");
+        }}
+      />
 
       <div className="cards-container">
         {images.map((card) => {
-            return card.priver || card.cacher ? '' :
+          return card.priver || card.cacher ? (
+            ""
+          ) : (
             <CardInstaPublic
-                id={card.id}
-                nom={card.nom}
-                description={card.description}
-                imgUrl={card.urlPhoto}
-                priver={card.priver}
-                cacher={card.cacher}
-                user={card.user}
-                currentUser={user}
-                api={api}
-                getImages={getImages}
-          />
-        }
-       )}
+              id={card.id}
+              nom={card.nom}
+              description={card.description}
+              imgUrl={card.urlPhoto}
+              priver={card.priver}
+              cacher={card.cacher}
+              user={card.user}
+              currentUser={user}
+              api={api}
+              getImages={getImages}
+            />
+          );
+        })}
       </div>
     </React.Fragment>
   );
