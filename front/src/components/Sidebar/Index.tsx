@@ -20,6 +20,7 @@ export function SideBar() {
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(LoginContext);
+
   function handleChangeSideBar() {
     setSideBar((prevState) => !prevState);
   }
@@ -63,16 +64,20 @@ export function SideBar() {
             </nav>
             <div>
               <ul>
-                <div
-                  style={{ marginBottom: "18px", cursor: "pointer" }}
-                  title="users"
-                  onClick={() => {
-                    navigate("/users");
-                  }}
-                >
-                  <RiUserSettingsFill size={"20px"} />
-                </div>
-                <br />
+                {user?.role === "ADMIN" && (
+                  <>
+                    <div
+                      style={{ marginBottom: "18px", cursor: "pointer" }}
+                      title="users"
+                      onClick={() => {
+                        navigate("/users");
+                      }}
+                    >
+                      <RiUserSettingsFill size={"20px"} />
+                    </div>
+                    <br />
+                  </>
+                )}
                 <div
                   style={{ marginBottom: "18px", cursor: "pointer" }}
                   title="configurations"
