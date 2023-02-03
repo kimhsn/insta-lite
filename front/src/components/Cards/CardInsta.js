@@ -81,22 +81,45 @@ const CardInsta = (props) => {
   };
 
   const updateImage = (id) => {
-    let datas = {
-      nom: nom,
-      priver: priver,
-      description: description,
-      urlPhoto: imaageUrl,
+    var imagedata = document?.querySelector('input[type="file"]')?.files[0];
+    let datasPath = {
+      path: imagedata,
     };
-
+    console.log("--------------------------------------------------------");
     axios
-      .put(`${props.api}/insta/photos/${id}`, datas, {
-        headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
+      .post(`${props.api}/insta/photos/path`, datasPath, {
+        headers: {
+          Authorization: `Bearer ${props.currentUser.jwt}`,
+          "Content-Type": "multipart/form-data",
+          accept: "multipart/form-data",
+        },
       })
       .then((response) => {
         if (response.status === 200) {
+          console.log(
+            "---------------------dagui-----------------------------------"
+          );
           props.getImages();
+          setOpenAdd(false);
+          let datas = {
+            nom: nom,
+            priver: priver,
+            description: description,
+            urlPhoto: response.data,
+          };
+          axios
+            .put(`${props.api}/insta/photos/${id}`, datas, {
+              headers: { Authorization: `Bearer ${props.currentUser.jwt}` },
+            })
+            .then((response) => {
+              if (response.status === 200) {
+                props.getImages();
+                setOpenAdd(false);
+              }
+            });
         }
       });
+    console.log("--------------------------------------------------------");
   };
 
   const addImage = () => {
