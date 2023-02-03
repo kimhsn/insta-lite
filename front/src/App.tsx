@@ -6,13 +6,15 @@ import Profile from "./pages/UserProfile";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import Register from "./pages/Register";
+import HomePublic from "./pages/HomePublic";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         {" "}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<HomePublic />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/users" element={<Users />} />

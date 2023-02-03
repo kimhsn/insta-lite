@@ -28,6 +28,7 @@ import Box, { BoxProps } from "@mui/material/Box";
 import DownloadIcon from "@mui/icons-material/Download";
 import axios from "axios";
 import { saveAs } from "file-saver";
+import { BiHide } from "react-icons/all";
 import {
   MdPublic,
   RiGitRepositoryPrivateFill,
@@ -40,6 +41,7 @@ const CardInsta = (props) => {
   const [imaageUrl, setImageUrl] = useState(props.imgUrl);
   const [open, setOpen] = useState(false);
   const [priver, setPriver] = useState(props.priver);
+  const [cacher, setCacher] = useState(props.cacher);
   const [openEdit, setOpenEdit] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
 
@@ -224,6 +226,15 @@ const CardInsta = (props) => {
           <IconButton aria-label="share right-priver-public">
             <MdPublic />
           </IconButton>
+        )}
+        {cacher ? (
+            <IconButton aria-label="share right-cacher-public">
+              <BiHide />
+            </IconButton>
+        ) : (
+            <IconButton aria-label="share right-cacher-public">
+              <MdPublic />
+            </IconButton>
         )}
       </CardActions>
       <Dialog

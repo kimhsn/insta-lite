@@ -19,6 +19,8 @@ import { LoginContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "../pages/utils";
 
+//toast
+
 const LOGIN_URL = "http://localhost:8080/insta/auth/authenticate";
 
 const Login = () => {
@@ -39,6 +41,9 @@ const Login = () => {
   //Call api login
 
   const handleSubmit = async (email: string, password: string) => {
+
+    //validate inputs
+  
     const response = await axios
       .post(
         LOGIN_URL,
@@ -90,16 +95,21 @@ const Login = () => {
   };
 
   const submitForm = async (e: any) => {
+    var regExMotDePasse = /^(?=.*\d)(?=.*[A-Z])(.{8,12})$/
+  
     e.preventDefault();
-    if (!isValidEmail(email)) showError("Invalid email address");
-    else if (password.length < 4)
-      showError("Password must be at least 6 characters");
-    if (isValidEmail(email) && password.length >= 4) {
+    if (!isValidEmail(email))  {
+      showError("Invalid email address");
+      return
+    }
+    else if(!regExMotDePasse.test(password)) {
+      showError('Le mot de passe doit contenir au moins un chiffre et une lettre majuscule et une longueur minimum de 8 caractères !');
+      return
+    }
       setFormLoading(true);
-      //const user = await Login(email, password);
       handleSubmit(email, password);
     }
-  };
+
 
   useEffect(() => {
     setDisabled(email.length > 0 && password.length > 0 ? false : true);

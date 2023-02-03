@@ -19,8 +19,17 @@ type Props = {
   deleteUser: (value: number) => void;
   getUserToUpdate: (value: number) => void;
 };
+
+
 const ReadOnlyRowUser = (props: Props) => {
   const { user, deleteUser, getUserToUpdate } = props;
+
+  const formateDate : any = (date: any) => {
+    var d = new Date(""+date);
+    user.creationData = d.toISOString().substring(0, 10);
+    return user.creationData
+  }
+
   return (
     <tr>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -37,7 +46,9 @@ const ReadOnlyRowUser = (props: Props) => {
         </div>
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p className="text-gray-900 whitespace-no-wrap">{user.creationData}</p>
+        <p className="text-gray-900 whitespace-no-wrap">
+           {formateDate(user.creationData)}
+        </p>
       </td>
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
         {user.appRoles.roleName === "ADMIN" ? (
