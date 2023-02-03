@@ -122,10 +122,13 @@ export function SideBar() {
               </nav>
               <div>
                 <ul>
-                  <Link to="/users">
-                    <RiUserSettingsFill />
-                    <p>Administration</p>
-                  </Link>
+                  {" "}
+                  {user?.role === "ADMIN" && (
+                    <Link to="/users">
+                      <RiUserSettingsFill />
+                      <p>Administration</p>
+                    </Link>
+                  )}
                   <Link to="/">
                     <RiLogoutCircleRLine />
                     <p>Déconnexion</p>
