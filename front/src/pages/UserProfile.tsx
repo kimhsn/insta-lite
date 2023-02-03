@@ -43,6 +43,7 @@ const UserProfile = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   useEffect(() => {
     console.log(firstName);
   }, [firstName]);
@@ -55,6 +56,7 @@ const UserProfile = () => {
         Authorization: `Bearer ${user?.jwt}`,
       },
     });
+    console.log(response.data);
     setEmail(response.data.email);
     setFirstName(response.data.prenom);
     setLastName(response.data.nom);
@@ -62,6 +64,7 @@ const UserProfile = () => {
     setUserInfos(response.data);
     setImagesUser(response.data.photos);
     setVideosUser(response.data.videos);
+    setDescription(response.data.description);
   };
   const updateOwnUserInfos = async (id: number) => {
     const response = await axios.get(`${URL}/findById/${user?.id}`, {
@@ -75,6 +78,7 @@ const UserProfile = () => {
         nom: lastName,
         prenom: firstName,
         email: email,
+        description: description,
       },
       {
         headers: {
@@ -154,6 +158,7 @@ const UserProfile = () => {
                 rows={4}
                 color="success"
                 placeholder={userInfos?.prenom}
+                onChange={(e) => setDescription(e.target.value)}
                 focused
               />
               <br></br>
@@ -178,7 +183,11 @@ const UserProfile = () => {
           totalPhotos={imagesUser.length}
           totalVideos={videosUser.length}
         />
-        <About firstName={userInfos?.prenom} lastName={userInfos?.nom} />
+        <About
+          firstName={userInfos?.prenom}
+          lastName={userInfos?.nom}
+          description={userInfos?.description}
+        />
         <ProfileButtons onClick={handleOpen} />
         <Highlights />
         <PostGrid postImages={imagesUser} />

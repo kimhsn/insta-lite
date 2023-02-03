@@ -38,20 +38,17 @@ const BioLink = styled.a`
 type Props = {
   firstName: string;
   lastName: string;
+  description: string;
 };
 function About(props: Props) {
-  const { firstName, lastName } = props;
+  const { firstName, lastName, description } = props;
   return (
     <AboutWrapper>
       <ProfileName>
         {firstName} {lastName}
       </ProfileName>
       <ProfileCategory> _ </ProfileCategory>
-      <BioText>🌐All About FrontEnd Web-Development</BioText>
-      <BioText>📒Resources/tips/tricks/tutorials</BioText>
-      <BioText>👨‍💻Free source codes</BioText>
-      <BioText>💲Dm For Paid Promotions</BioText>
-      <BioText>⬇️Join Our Telegram Channel</BioText>
+      <BioText>{description}</BioText>
     </AboutWrapper>
   );
 }

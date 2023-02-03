@@ -2,31 +2,24 @@ import { useState } from "react";
 import { useContext } from "react";
 import { Container, Content, ClosedSideBar, OpenSideBar } from "./styles";
 import {
-  MdSettings,
   BsArrowRight,
   BsArrowLeft,
-  AiFillVideoCamera,
   AiFillHome,
-  IoMdNotifications,
   FaUserAlt,
-  BsImages,
   RiLogoutCircleRLine,
   BiLogOutCircle,
   RiUserSettingsFill,
 } from "react-icons/all";
-import { Navigate, useNavigate, Link } from "react-router-dom";
-
-import { LoginContext } from "../../context/AuthContext";
-
+import { useNavigate, Link } from "react-router-dom";
+import scLogo from "../../assets/scLogo.jpg";
 import logoImg from "../../assets/images/logo.png";
-import userImg from "../../assets/images/eu.jpg";
+import { LoginContext } from "../../context/AuthContext";
 
 export function SideBar() {
   const [sideBar, setSideBar] = useState(false);
   const navigate = useNavigate();
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(LoginContext);
-
+  const { user, setUser } = useContext(LoginContext);
   function handleChangeSideBar() {
     setSideBar((prevState) => !prevState);
   }
@@ -42,12 +35,12 @@ export function SideBar() {
 
               <img src={logoImg} alt="Eu" />
 
-              {/* Links principais do app */}
               <ul>
                 <div
                   style={{
                     marginBottom: "38px",
                     marginTop: "20px",
+                    cursor: "pointer",
                   }}
                   title="home"
                   onClick={() => {
@@ -56,27 +49,9 @@ export function SideBar() {
                 >
                   <AiFillHome size={"20px"} />
                 </div>
-                <div
-                  style={{ marginBottom: "38px" }}
-                  title="images"
-                  onClick={() => {
-                    navigate("/images");
-                  }}
-                >
-                  <BsImages size={"20px"} />
-                </div>
-                <div
-                  style={{ marginBottom: "38px" }}
-                  title="videos"
-                  onClick={() => {
-                    navigate("/videos");
-                  }}
-                >
-                  <AiFillVideoCamera size={"20px"} />
-                </div>
 
                 <div
-                  style={{ marginBottom: "38px" }}
+                  style={{ marginBottom: "38px", cursor: "pointer" }}
                   title="profile"
                   onClick={() => {
                     navigate("/profile");
@@ -87,42 +62,30 @@ export function SideBar() {
               </ul>
             </nav>
             <div>
-              {/* Icones que pode não ser tão principais no app */}
               <ul>
                 <div
-                  style={{ marginBottom: "18px" }}
+                  style={{ marginBottom: "18px", cursor: "pointer" }}
                   title="users"
                   onClick={() => {
                     navigate("/users");
                   }}
                 >
-                  {" "}
                   <RiUserSettingsFill size={"20px"} />
                 </div>
                 <br />
                 <div
-                  style={{ marginBottom: "18px" }}
+                  style={{ marginBottom: "18px", cursor: "pointer" }}
                   title="configurations"
                   onClick={() => {
                     navigate("/");
                   }}
                 >
-                  {" "}
-                  <MdSettings size={"20px"} />
+                  <BiLogOutCircle size={"20px"} />
                 </div>
-                {isLoggedIn ? (
-                  <a href="/" title="Deconnexion">
-                    <BiLogOutCircle size={"20px"} />
-                  </a>
-                ) : (
-                  <a href="/" title="Connexion">
-                    <RiLogoutCircleRLine size={"20px"} />
-                  </a>
-                )}
               </ul>
 
               <span>
-                <img src={userImg} alt="Eu" />
+                <img src={scLogo} alt="profileImg" />
               </span>
             </div>
           </ClosedSideBar>
@@ -142,44 +105,33 @@ export function SideBar() {
 
                 {/* Icones principais do app */}
                 <ul>
-                  <a href="/" title="Alguma coisa">
+                  <Link to="/home">
                     <AiFillHome />
                     <p>Accueil</p>
-                  </a>
-                  <a href="/" title="Alguma coisa">
-                    <BsImages />
-                    <p>Images</p>
-                  </a>
-                  <a href="/" title="Alguma coisa">
-                    <AiFillVideoCamera />
-                    <p>Vidéos</p>
-                  </a>
-                  <a href="/profile" title="Alguma coisa">
+                  </Link>
+                  <Link to="/profile">
                     <FaUserAlt />
-                    <p>Profile</p>
-                  </a>
+                    <p>Profil</p>
+                  </Link>
                 </ul>
               </nav>
               <div>
-                {/* Icones que pode não ser tão principais no app */}
                 <ul>
-                  <a href="/">
-                    <IoMdNotifications />
-                    <p>Notifications</p>
-                  </a>
-                  <a href="/">
-                    <MdSettings />
-                    <p>Configuration</p>
-                  </a>
-                  <a href="/">
+                  <Link to="/users">
+                    <RiUserSettingsFill />
+                    <p>Administration</p>
+                  </Link>
+                  <Link to="/">
                     <RiLogoutCircleRLine />
                     <p>Déconnexion</p>
-                  </a>
+                  </Link>
                 </ul>
 
                 <span>
-                  <img src={userImg} alt="Eu" />
-                  <p> Prenom Nom </p>
+                  <img src={scLogo} alt="Eu" />
+                  <p>
+                    {user?.prenom} {user?.nom}{" "}
+                  </p>
                 </span>
               </div>
             </section>
